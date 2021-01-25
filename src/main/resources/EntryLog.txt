@@ -1,0 +1,26 @@
+
+{
+date : 23/1/2021
+title : programming day
+log : gd programming
+}
+
+{
+date : 23/1/2021
+title : programming day
+log : another good day programming
+}
+
+{
+date : 23/1/2021
+title : programming day
+log : blahblah
+}
+
+{
+date : 23/1/2021
+title : programming day
+mood : :)
+log : example
+}
+
