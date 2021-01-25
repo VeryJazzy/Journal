@@ -33,6 +33,8 @@ table {
   border: 2px solid rgb(200,200,200);
   letter-spacing: 1px;
   font-size: 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td, th {
@@ -63,7 +65,20 @@ caption {
 .msg {
 text-align: left;
 }
-    
+
+.message-area {
+width: 800px;
+}
+
+.date-area {
+width: 80px;
+}
+
+.mood-area {
+width: 30px;
+}
+
+
 
 
     </style>
@@ -89,26 +104,47 @@ text-align: left;
     <h2>Entries</h2>
 </div>
 
+<!--<table th:each="entry">-->
+<div th:each = "entry : ${entries}">
+    <table>
+        <tr>
+            <th th:text="${entry.date}" class="date-area"></th>
+            <th th:text="${entry.title}"></th>
+            <th th:text="${entry.mood}" class="mood-area"></th>
+        </tr>
+        <tr>
+            <td></td>
+            <td th:text="${entry.message}" class="message-area"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <br>
+
+</div>
 
 
 
 
-<!--<div th:table="${content}"></div>-->
 
-<table>
-    <tr>
-        <th th:text="${mood}"></th>
-        <th>%title%</th>
-        <th>%date%</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td>%message%</td>
-        <td></td>
-    </tr>
-</table>
 
-<br>
+<!--<table th:each="entry">-->
+<!--<table th:each = "entry : ${entries}">-->
+<!--    <tr>-->
+<!--        <th th:text="${mood}"></th>-->
+<!--        <th th:text="${title}"></th>-->
+<!--        <th th:text="${date}"></th>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td></td>-->
+<!--        <td th:text="${message}"></td>-->
+<!--        <td></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<!--<br>-->
+
+
 
 
 

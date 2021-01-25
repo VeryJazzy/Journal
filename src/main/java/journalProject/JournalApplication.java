@@ -17,6 +17,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 
 
 @SpringBootApplication
@@ -36,31 +39,46 @@ public class JournalApplication {
 
     @GetMapping("/entries")
     public String greeting(Model model) throws IOException {
-        String entries = Files.readString(Path.of("src/main/resources/EntryLog.txt"), StandardCharsets.UTF_8);
-        //method to extract data from entries
+        String file = Files.readString(Path.of("src/main/resources/EntryLog.txt"), StandardCharsets.UTF_8);
+        String[] entries = file.split("\n\n");
+
+        ArrayList<Entry> entryList = new ArrayList<>();
+        for (String anEntry : entries) {
+            String[] values = anEntry.split("\n");
+            Entry entry = new Entry(values[0],values[1],values[2],values[3]);
+            entryList.add(entry);
+        }
+        model.addAttribute("entries", entryList);
 
 
-
-        model.addAttribute("mood", mood);
-        model.addAttribute("title", title);
-        model.addAttribute("date", date);
-        model.addAttribute("message", message);
         return "entries";
     }
 
 
+//    String[] values = entries[0].split("\n");
+//
+//    ArrayList<String> entryArr = new ArrayList<>();
+//        entryArr.add(values[0]);
+//        entryArr.add(values[1]);
+//        entryArr.add(values[2]);
+//        entryArr.add(values[3]);
+//        model.addAttribute("entry", entryArr);
+
+
+//            model.addAttribute("date", values[0]);
+//            model.addAttribute("title", values[1]);
+//            model.addAttribute("mood", values[2]);
+//            model.addAttribute("message", values[3]);
 
 
     public void writeToFile(String date, String title, String mood, String message) {
         try {
             FileWriter myWriter = new FileWriter("src/main/resources/EntryLog.txt", true);
             myWriter.write(
-                    "{\n" +
-                            "date : " + date + "\n" +
-                            "title : " + title + "\n" +
-                            "mood : " + mood + "\n" +
-                            "log : " + message + "\n" +
-                            "}\n\n"
+                    date + "\n" +
+                            title + "\n" +
+                            mood + "\n" +
+                            message + "\n\n"
             );
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
