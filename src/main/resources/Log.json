@@ -1,0 +1,23 @@
+{
+  "entries": [
+    {
+      "id": 1,
+      "date": "27/01/2021",
+      "mood": ":)",
+      "title": "test",
+      "message": "tester paragraph"
+    }
+  ]
+}{
+  "date": "30/01/2021",
+  "mood": ":)",
+  "id": "001",
+  "title": "id tester",
+  "message": "testing the id, this should be id = 002"
+}{
+  "date": "31/12/2020",
+  "mood": ":)",
+  "id": "001",
+  "title": "programming day",
+  "message": "this is id = 003"
+}

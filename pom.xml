@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>journalProject</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>journal-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Journal</name>
 	<description>Demo project for Spring Boot</description>
@@ -52,6 +52,12 @@
 			<version>3.0.11.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
 
 	</dependencies>
 
