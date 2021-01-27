@@ -39,7 +39,8 @@ public class JournalApplication {
         date = formatDate(date);
         JSONObject entryJSON = writeToJSONObj(date, title, mood, message);
         writeToFile(entryJSON);
-        return "index-formSent.html";
+//        return "index-formSent.html";
+        return "redirect:/entries";
     }
 
     private JSONObject writeToJSONObj(String date, String title, String mood, String message) {
@@ -109,23 +110,6 @@ public class JournalApplication {
         model.addAttribute("entries", entryList);
         return "entries";
     }
-
-
-
-//    @GetMapping("/entries")
-//    public String greeting(Model model) throws IOException {
-//        String file = Files.readString(Path.of("src/main/resources/EntryLog.txt"), StandardCharsets.UTF_8);
-//        String[] entries = file.split(System.lineSeparator() + System.lineSeparator());
-//
-//        ArrayList<Entry> entryList = new ArrayList<>();
-//        for (String anEntry : entries) {
-//            String[] values = anEntry.split(System.lineSeparator());
-//            Entry entry = new Entry(values[0],values[1],values[2],values[3]);
-//            entryList.add(entry);
-//        }
-//        model.addAttribute("entries", entryList);
-//        return "entries";
-//    }
 
 
 }
