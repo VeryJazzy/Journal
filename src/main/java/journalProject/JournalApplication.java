@@ -44,7 +44,6 @@ public class JournalApplication {
 
     private JSONObject writeToJSONObj(String date, String title, String mood, String message) {
         JSONObject obj = new JSONObject();
-
         obj.put("id", getIDNumber());
         obj.put("date", date);
         obj.put("title", title);
@@ -90,15 +89,23 @@ public class JournalApplication {
 
     @GetMapping("/entries")
     public String greeting(Model model) throws IOException {
-        String file = Files.readString(Path.of("src/main/resources/EntryLog.txt"), StandardCharsets.UTF_8);
-        String[] entries = file.split(System.lineSeparator() + System.lineSeparator());
-
         ArrayList<Entry> entryList = new ArrayList<>();
-        for (String anEntry : entries) {
-            String[] values = anEntry.split(System.lineSeparator());
-            Entry entry = new Entry(values[0],values[1],values[2],values[3]);
+
+        JSONObject jsonObject = new JSONObject(Files.readString(Path.of("src/main/resources/Log.json")));
+        JSONArray jsonArray = (JSONArray) jsonObject.get("entries");
+
+        for (Object obj : jsonArray) {
+            JSONObject aJsonObject = (JSONObject) obj;
+
+            String date = (String) aJsonObject.get("date");
+            String title = (String) aJsonObject.get("title");
+            String mood = (String) aJsonObject.get("mood");
+            String message = (String) aJsonObject.get("message");
+
+            Entry entry = new Entry(date, title, mood, message);
             entryList.add(entry);
         }
+
         model.addAttribute("entries", entryList);
         return "entries";
     }
