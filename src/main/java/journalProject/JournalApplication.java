@@ -45,7 +45,7 @@ public class JournalApplication {
     private JSONObject writeToJSONObj(String date, String title, String mood, String message) {
         JSONObject obj = new JSONObject();
 
-        obj.put("id",getIDNumber());
+        obj.put("id", getIDNumber());
         obj.put("date", date);
         obj.put("title", title);
         obj.put("mood", mood);
@@ -63,15 +63,18 @@ public class JournalApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "00" + jsonArray.length();
+        return String.valueOf(jsonArray.length());
     }
 
-    public void writeToFile(JSONObject entryJSON) {
+    public void writeToFile(JSONObject toBeAdded) {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/Log.json", true);
-            myWriter.write(entryJSON.toString());
+            JSONObject obj = new JSONObject(Files.readString(Path.of("src/main/resources/Log.json")));
+            JSONArray jsonArray = (JSONArray) obj.get("entries");
+            jsonArray.put(toBeAdded);
+            obj.put("entries",jsonArray);
+            FileWriter myWriter = new FileWriter("src/main/resources/Log.json", false);
+            myWriter.write(obj.toString());
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -81,15 +84,26 @@ public class JournalApplication {
     private String formatDate(String date) {
         // 2021-01-27
         // 27/01/2021
-        String formattedDate = date.substring(8) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
+        String formattedDate = date.substring(8) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
         return formattedDate.toString();
     }
 
-//    @PostMapping("/sendForm")
-//    public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_mood") String mood, @RequestParam(name = "user_message") String message) {
-//        writeToFile(date, title, mood, message);
-//        return "index-formSent.html";
-//    }
+    @GetMapping("/entries")
+    public String greeting(Model model) throws IOException {
+        String file = Files.readString(Path.of("src/main/resources/EntryLog.txt"), StandardCharsets.UTF_8);
+        String[] entries = file.split(System.lineSeparator() + System.lineSeparator());
+
+        ArrayList<Entry> entryList = new ArrayList<>();
+        for (String anEntry : entries) {
+            String[] values = anEntry.split(System.lineSeparator());
+            Entry entry = new Entry(values[0],values[1],values[2],values[3]);
+            entryList.add(entry);
+        }
+        model.addAttribute("entries", entryList);
+        return "entries";
+    }
+
+
 
 //    @GetMapping("/entries")
 //    public String greeting(Model model) throws IOException {
@@ -103,29 +117,8 @@ public class JournalApplication {
 //            entryList.add(entry);
 //        }
 //        model.addAttribute("entries", entryList);
-//
-//
 //        return "entries";
 //    }
-
-//    public void writeToFile(String date, String title, String mood, String message) {
-//        date = formatDate(date);
-//        try {
-//            FileWriter myWriter = new FileWriter("src/main/resources/EntryLog.txt", true);
-//            myWriter.write(
-//                    date + System.lineSeparator() +
-//                            title + System.lineSeparator() +
-//                            mood + System.lineSeparator() +
-//                            message + System.lineSeparator() + System.lineSeparator()
-//            );
-//            myWriter.close();
-//            System.out.println("Successfully wrote to the file.");
-//        } catch (IOException e) {
-//            System.out.println("An error occurred.");
-//            e.printStackTrace();
-//        }
-//    }
-
 
 
 }
