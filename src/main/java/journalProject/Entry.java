@@ -10,9 +10,7 @@ public class Entry {
         return title;
     }
 
-    public String getMood() {
-        return mood;
-    }
+
 
     public String getMessage() {
         return message;
@@ -20,13 +18,13 @@ public class Entry {
 
     private String date;
     private String title;
-    private String mood;
+
     private String message;
 
-    public Entry(String date, String title, String mood, String message) {
+    public Entry(String date, String title, String message) {
         this.date = date;
         this.title = title;
-        this.mood = mood;
+
         this.message = message;
     }
 }

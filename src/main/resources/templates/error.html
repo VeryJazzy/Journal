@@ -6,42 +6,50 @@
     <title>Journal</title>
 
     <style>
-        body {
-            width: 100%;
-            max-width: 1200px;
-            background-color: white;
-            text-align: center;
-        }
+       body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #e6e6e6;
+ }
+	a {
+	font-size: 18px;
+	display: inline-block;
+	padding: 0.3em 1.2em;
+	margin: 0 0.3em 0.3em 0;
+	border-radius: 2em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	color: #FFFFFF;
+	background-color: #4eb5f1;
+	text-align: center;
+	transition: all 0.2s;
+}
+a:hover {
+	background-color: #4095c6;
+}
+@media all and (max-width:30em) {
+	a.button3 {
+		display: block;
+		margin: 0.2em auto;
+}
 
-        h1 {
-            font-size: 45px;
-        }
-        h1 {
-            font-size: 35px;
-        }
-
-        .block {
-            /* border: 100px black; */
-            border-radius: 10px;
-            background-color: #4CAF50;
-            padding: 14px 28px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-        }
     </style>
 </head>
 
 
 <body>
-<header>
-    <h1>JOURNAL!</h1>
-    <p>...For all your journaling needs </p>
+<header class="img">
+    <img src="/images/journallogo.png" alt="image didnt load"  width="460" height="auto">
 </header>
+<nav>
+    <a href="entries">Journal entries</a>
+    <a href="add entry.html">Add an Entry</a>
+    <a href="aa">Button with broken link</a>
+</nav>
 
-<h2>Something went wrong! </h2>
-<img src="/images/prap.jpg" alt="image didnt load">
-<p> Error 404</p>
+<img src="/images/prapedit2.jpg" alt="image didnt load">
+
 
 
 </body>

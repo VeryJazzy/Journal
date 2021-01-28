@@ -35,20 +35,19 @@ public class JournalApplication {
     }
 
     @PostMapping("/sendForm")
-    public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_mood") String mood, @RequestParam(name = "user_message") String message) {
+    public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
         date = formatDate(date);
-        JSONObject entryJSON = writeToJSONObj(date, title, mood, message);
+        JSONObject entryJSON = writeToJSONObj(date, title, message);
         writeToFile(entryJSON);
 //        return "index-formSent.html";
         return "redirect:/entries";
     }
 
-    private JSONObject writeToJSONObj(String date, String title, String mood, String message) {
+    private JSONObject writeToJSONObj(String date, String title, String message) {
         JSONObject obj = new JSONObject();
         obj.put("id", getIDNumber());
         obj.put("date", date);
         obj.put("title", title);
-        obj.put("mood", mood);
         obj.put("message", message);
         return obj;
     }
@@ -100,10 +99,8 @@ public class JournalApplication {
 
             String date = (String) aJsonObject.get("date");
             String title = (String) aJsonObject.get("title");
-            String mood = (String) aJsonObject.get("mood");
             String message = (String) aJsonObject.get("message");
-
-            Entry entry = new Entry(date, title, mood, message);
+            Entry entry = new Entry(date, title, message);
             entryList.add(entry);
         }
 

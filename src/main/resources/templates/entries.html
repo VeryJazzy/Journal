@@ -6,144 +6,150 @@
     <title>entries</title>
 
     <style>
-        body {
-            font-family: sans-serif;
-            width: 100%;
-            max-width: 1200px;
-            background-color: white;
-            text-align: center;
-        }
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #e6e6e6;
+ }
+ a {
+	font-size: 18px;
+	display: inline-block;
+	padding: 0.3em 1.2em;
+	margin: 0 0.3em 0.3em 0;
+	border-radius: 2em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	color: #FFFFFF;
+	background-color: #4eb5f1;
+	text-align: center;
+	transition: all 0.2s;
+}
+a:hover {
+	background-color: #4095c6;
+}
 
-        h1 {
-            font-size: 45px;
-        }
+.empty1 {
+background-color: #e6e6e6;
+}
 
-        .block {
-            /* border: 100px black; */
-            border-radius: 10px;
-            background-color: #4CAF50;
-            padding: 14px 28px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center; 
-        }
+
+
+
+
+
+
+
+
+
+.block {
+ border-radius: 10px;
+ background-color: #4CAF50;
+ padding: 14px 28px;
+ font-size: 16px;
+ cursor: pointer;
+ text-align: center;
+}
 
 table {
   border-collapse: collapse;
-  border: 2px solid rgb(200,200,200);
+  border: 2px solid rgb(230,230,230);
   letter-spacing: 1px;
   font-size: 0.8rem;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 
 td, th {
-  border: 1px solid rgb(190,190,190);
+  border: 1px solid rgb(230,230,230);
   padding: 10px 20px;
 }
 
 th {
-  background-color: rgb(235,235,235);
+  background-color: rgb(245,245,245);
 }
 
 td {
   text-align: center;
 }
 
+
 tr:nth-child(even) td {
-  background-color: rgb(250,250,250);
+ background-color: rgb(255,255,255);
 }
 
-tr:nth-child(odd) td {
-  background-color: rgb(245,245,245);
-}
+
 
 caption {
   padding: 10px;
 }
 
-.msg {
+.title {
+font-size: 13px;
 text-align: left;
 }
 
 .message-area {
-width: 800px;
+padding-top: 12px;
+padding-bottom: 15px;
+padding-right: 35px;
+text-align: left;
+width: 500px;
 }
 
 .date-area {
-width: 80px;
+width: 10px;
 }
 
 .mood-area {
 width: 30px;
 }
+
+
     </style>
 </head>
 
 
 <body>
-<header>
-    <h1>JOURNAL!</h1>
-    <p>...For all your journaling needs </p>
+<header class="img">
+    <img src="/images/journallogo.png" alt="image didnt load"  width="460" height="auto">
 </header>
+<nav>
+    <a href="entries">Journal entries</a>
+    <a href="add entry.html">Add an Entry</a>
+    <a href="aa">Button with broken link</a>
+</nav>
+<br>
 
-<div class="buttons">
-    <a href="entries">
-        <button class="block">See entries</button>
-    </a>
-    <a href="add entry.html">
-        <button class="block">Add entry</button>
-    </a>
-</div>
 
-<div class="entries-box">
-    <h2>Entries</h2>
-</div>
+<img src="/images/entrieslogo.png" alt="image didnt load"  width="280" height="auto">
 
-<!--<table th:each="entry">-->
+
+
+
+
+
+
 <div th:each = "entry : ${entries}">
     <table>
         <tr>
             <th th:text="${entry.date}" class="date-area"></th>
-            <th th:text="${entry.title}"></th>
-            <th th:text="${entry.mood}" class="mood-area"></th>
+            <th th:text="${entry.title}" class="title"></th>
+<!--            <th th:text="${entry.mood}" class="mood-area"></th>-->
         </tr>
         <tr>
-            <td></td>
+            <td class="empty1"></td>
             <td th:text="${entry.message}" class="message-area"></td>
-            <td></td>
+<!--            <td class="empty1"></td>-->
         </tr>
     </table>
-
     <br>
-
+    <br>
 </div>
-
-
-
-
-
-
-<!--<table th:each="entry">-->
-<!--<table th:each = "entry : ${entries}">-->
-<!--    <tr>-->
-<!--        <th th:text="${mood}"></th>-->
-<!--        <th th:text="${title}"></th>-->
-<!--        <th th:text="${date}"></th>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td></td>-->
-<!--        <td th:text="${message}"></td>-->
-<!--        <td></td>-->
-<!--    </tr>-->
-<!--</table>-->
-
-<!--<br>-->
 
 
 
 
 
 </body>
-
 </html>
