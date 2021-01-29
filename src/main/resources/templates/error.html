@@ -10,7 +10,7 @@
 	font-family: 'Roboto', sans-serif;
 	background-color: #e6e6e6;
  }
-	a {
+	.buttons {
 	font-size: 18px;
 	display: inline-block;
 	padding: 0.3em 1.2em;
@@ -25,14 +25,10 @@
 	text-align: center;
 	transition: all 0.2s;
 }
-a:hover {
+.buttons:hover {
 	background-color: #4095c6;
 }
-@media all and (max-width:30em) {
-	a.button3 {
-		display: block;
-		margin: 0.2em auto;
-}
+
 
     </style>
 </head>
@@ -40,15 +36,17 @@ a:hover {
 
 <body>
 <header class="img">
-    <img src="/images/journallogo.png" alt="image didnt load"  width="460" height="auto">
+    <a href="index.html">
+        <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
+    </a>
 </header>
 <nav>
-    <a href="entries">Journal entries</a>
-    <a href="add entry.html">Add an Entry</a>
-    <a href="aa">Button with broken link</a>
+    <a class="buttons" href="entries">Journal entries</a>
+    <a class="buttons" href="add entry.html">Add an Entry</a>
+    <a class="buttons" href="aa">Button with broken link</a>
 </nav>
 
-<img src="/images/prapedit2.jpg" alt="image didnt load">
+<img src="/images/prap4.jpg" alt="image didnt load">
 
 
 

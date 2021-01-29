@@ -10,7 +10,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	background-color: #e6e6e6;
  }
- a {
+ .buttons {
 	font-size: 18px;
 	display: inline-block;
 	padding: 0.3em 1.2em;
@@ -25,15 +25,33 @@ body {
 	text-align: center;
 	transition: all 0.2s;
 }
-a:hover {
+.buttons:hover {
 	background-color: #4095c6;
 }
 
-.empty1 {
+.emptyCell {
 background-color: #e6e6e6;
 }
 
+.deleteButton {
+	font-size: 12px;
+	display: inline-block;
+	padding: 0.3em 1.2em;
+	margin: 0 0.3em 0.3em 0;
+	border-radius: 2em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	color: #FFFFFF;
+	background-color: rgba(78,181,241,0.5);
+	text-align: center;
+	transition: all 0.2s;
+}
 
+.deleteButton:hover {
+	background-color: #4095c6;
+}
 
 
 
@@ -61,7 +79,8 @@ table {
 }
 
 td, th {
-  border: 1px solid rgb(230,230,230);
+<!--  border: 1px solid rgb(230,230,230);-->
+    border: 1px solid rgb(255,255,255);
   padding: 10px 20px;
 }
 
@@ -112,12 +131,14 @@ width: 30px;
 
 <body>
 <header class="img">
-    <img src="/images/journallogo.png" alt="image didnt load"  width="460" height="auto">
+    <a href="index.html">
+        <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
+    </a>
 </header>
 <nav>
-    <a href="entries">Journal entries</a>
-    <a href="add entry.html">Add an Entry</a>
-    <a href="aa">Button with broken link</a>
+    <a class="buttons" href="entries">Journal entries</a>
+    <a class="buttons" href="add entry.html">Add an Entry</a>
+    <a class="buttons" href="aa">Button with broken link</a>
 </nav>
 <br>
 
@@ -131,16 +152,14 @@ width: 30px;
 
 
 <div th:each = "entry : ${entries}">
-    <table>
+    <table th:id="${entry.id}">
         <tr>
-            <th th:text="${entry.date}" class="date-area"></th>
             <th th:text="${entry.title}" class="title"></th>
-<!--            <th th:text="${entry.mood}" class="mood-area"></th>-->
+            <th th:text="${entry.date}" class="date-area"></th>
         </tr>
         <tr>
-            <td class="empty1"></td>
             <td th:text="${entry.message}" class="message-area"></td>
-<!--            <td class="empty1"></td>-->
+            <td class="emptyCell"> <a class="deleteButton" href="entries">Delete</a></td>
         </tr>
     </table>
     <br>

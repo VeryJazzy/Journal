@@ -65,7 +65,7 @@
             height: 250px;
             vertical-align: top;
         }
-        a {
+        .buttons {
             font-size: 18px;
             display: inline-block;
             padding: 0.3em 1.2em;
@@ -80,7 +80,7 @@
             text-align: center;
             transition: all 0.2s;
         }
-        a:hover {
+        .buttons:hover {
             background-color: #4095c6;
         }
 
@@ -135,35 +135,46 @@
 	padding: 3%;
 	border: 1px solid #4eb5f1;
 }
+button {
+cursor: pointer;
+}
 
 
 
-
+span {
+align: center;
+}
     </style>
 
+    <script>
+function formSentMessage() {
+    alert("Entry added to journal");
+}
+    </script>
 
 </head>
 
 <body>
 <header class="img">
-    <img src="/images/journallogo.png" alt="image didnt load" width="460" height="auto">
+    <a href="index.html">
+        <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
+    </a>
 </header>
 <nav>
-    <a href="entries">Journal entries</a>
-    <a href="add entry.html">Add an Entry</a>
-    <a href="aa">Button with broken link</a>
+    <a class="buttons" href="entries">Journal entries</a>
+    <a class="buttons" href="add entry.html">Add an Entry</a>
+    <a class="buttons" href="aa">Button with broken link</a>
 </nav>
 
 <br>
 
-
 <div class="form-style-6">
-    <img src="/images/addlogo.png" alt="image didnt load"  width="340" height="auto">
-    <form action="/sendForm" method="post">
-        <input type="date" id="date" name="user_date" placeholder="Date"/>
-        <input type="text" id="title" name="user_title" placeholder="Title"/>
-<!--        <input type="text" id="mood" name="user_mood" placeholder="Mood"/>-->
-        <textarea id="msg" name="user_message" placeholder="Type your Message"></textarea>
+    <img src="/images/addlogo.png" alt="image didnt load" width="340" height="auto">
+    <form action="/sendForm" method="post" onsubmit="return formSentMessage()">
+        <input type="date" id="date" name="user_date" placeholder="Date" required/>
+        <input type="text" id="title" name="user_title" placeholder="Title" required/>
+        <!--        <input type="text" id="mood" name="user_mood" placeholder="Mood"/>-->
+        <textarea id="msg" name="user_message" placeholder="Type your Message" required></textarea>
         <button type="submit" class="submit-button">Save</button>
     </form>
 </div>

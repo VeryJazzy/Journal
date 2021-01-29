@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.UUID;
 
 @SpringBootApplication
 
@@ -39,7 +40,6 @@ public class JournalApplication {
         date = formatDate(date);
         JSONObject entryJSON = writeToJSONObj(date, title, message);
         writeToFile(entryJSON);
-//        return "index-formSent.html";
         return "redirect:/entries";
     }
 
@@ -51,18 +51,8 @@ public class JournalApplication {
         obj.put("message", message);
         return obj;
     }
-
     private String getIDNumber() {
-        JSONArray jsonArray = null;
-        try {
-            String jsonString = Files.readString(Path.of("src/main/resources/Log.json"));
-            JSONObject obj = new JSONObject(jsonString);
-            jsonArray = (JSONArray) obj.get("entries");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return String.valueOf(jsonArray.length());
+        return UUID.randomUUID().toString();
     }
 
     public void writeToFile(JSONObject toBeAdded) {
@@ -96,11 +86,11 @@ public class JournalApplication {
 
         for (Object obj : jsonArray) {
             JSONObject aJsonObject = (JSONObject) obj;
-
+            String id = (String) aJsonObject.get("id");
             String date = (String) aJsonObject.get("date");
             String title = (String) aJsonObject.get("title");
             String message = (String) aJsonObject.get("message");
-            Entry entry = new Entry(date, title, message);
+            Entry entry = new Entry(id, date, title, message);
             entryList.add(entry);
         }
 
