@@ -126,6 +126,15 @@ width: 30px;
 
 
     </style>
+
+    <script>
+        function sendTableID() {
+  var id = document.getElementById("myLI").parentElement.nodeName;
+}
+
+
+
+    </script>
 </head>
 
 
@@ -152,14 +161,17 @@ width: 30px;
 
 
 <div th:each = "entry : ${entries}">
-    <table th:id="${entry.id}">
+<!--    <table th:id="${entry.id}">-->
+    <table>
         <tr>
             <th th:text="${entry.title}" class="title"></th>
             <th th:text="${entry.date}" class="date-area"></th>
         </tr>
         <tr>
             <td th:text="${entry.message}" class="message-area"></td>
-            <td class="emptyCell"> <a class="deleteButton" href="entries">Delete</a></td>
+
+            <td class="emptyCell"> <a class="deleteButton" th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a></td>
+
         </tr>
     </table>
     <br>

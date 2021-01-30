@@ -170,10 +170,10 @@ function formSentMessage() {
 
 <div class="form-style-6">
     <img src="/images/addlogo.png" alt="image didnt load" width="340" height="auto">
+
     <form action="/sendForm" method="post" onsubmit="return formSentMessage()">
         <input type="date" id="date" name="user_date" placeholder="Date" required/>
         <input type="text" id="title" name="user_title" placeholder="Title" required/>
-        <!--        <input type="text" id="mood" name="user_mood" placeholder="Mood"/>-->
         <textarea id="msg" name="user_message" placeholder="Type your Message" required></textarea>
         <button type="submit" class="submit-button">Save</button>
     </form>

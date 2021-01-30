@@ -1,0 +1,4 @@
+
+<td class="emptyCell">
+<a th:href="deleteEntry/${entry.id}" class="deleteButton" >Delete</a>
+</td>
