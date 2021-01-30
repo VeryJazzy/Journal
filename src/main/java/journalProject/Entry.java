@@ -2,12 +2,10 @@ package journalProject;
 
 public class Entry {
 
-
-
-    private String id;
-    private String date;
-    private String title;
-    private String message;
+    private final String id;
+    private final String date;
+    private final String title;
+    private final String message;
 
     public Entry(String id, String date, String title, String message) {
         this.id = id;
