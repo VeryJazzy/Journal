@@ -1,1 +1,22 @@
-{"entries":[{"date":"22/01/2021","id":"6","title":"json format complete","message":"the json formatting of the log file is complete.\r\n\r\nmulti-line still doesnt really work though because its displayed inside a table."},{"date":"07/01/2021","id":"4","title":"testing with css working","message":"testing with css working testing with css working testing with css working\r\n\r\n testing with css working"}]}
+{
+  "entries": [
+    {
+      "date": "22/01/2021",
+      "id": "6",
+      "title": "json format complete",
+      "message": "the json formatting of the log file is complete.\r\n\r\nmulti-line still doesnt really work though because its displayed inside a table."
+    },
+    {
+      "date": "07/01/2021",
+      "id": "4",
+      "title": "testing with css working",
+      "message": "testing with css working testing with css working testing with css working\r\n\r\n testing with css working"
+    },
+    {
+      "date": "14/01/2021",
+      "id": "dd40c05c-5fb1-44d4-b2c6-81a334ffef3b",
+      "title": "test entry",
+      "message": "Create more user accounts.  root is a superuser account for administration of the MySQL server which should not be used for general operations. On how to create user accounts of various kinds, see Adding Accounts, Assigning Privileges, and Dropping Accounts."
+    }
+  ]
+}
