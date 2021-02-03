@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MainController {
 
     final JsonDao database = new JsonDao();
-//    final MySqlDao database = new MySqlDao();
+
 
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
