@@ -1,21 +1,34 @@
 package journalProject;
 
-import java.util.ArrayList;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-public class MySqlDao implements Dao{
+import javax.sql.DataSource;
+import java.util.List;
+
+public class MySqlDao implements Dao {
+
+    private JdbcTemplate jdbcTemplate;
+
+    public MySqlDao(DataSource ds) {
+        this.jdbcTemplate = new JdbcTemplate(ds);
+    }
 
     @Override
-    public void add(Object entry) {
-
+    public void add(Entry entry) {
+        jdbcTemplate.update("INSERT INTO ENTRIES VALUES (?, ?, ?, ?)",
+                entry.getId(), entry.getDate(), entry.getTitle(), entry.getMessage());
     }
 
     @Override
     public void delete(String id) {
-
+        jdbcTemplate.update("DELETE FROM ENTRIES WHERE id=?", id);
     }
 
     @Override
-    public ArrayList<Entry> getEntries() {
-        return null;
+    public List<Entry> getEntries() {
+        String query = "SELECT * FROM ENTRIES";
+        return jdbcTemplate.query(query, new EntryRowMapper());
     }
+
+
 }

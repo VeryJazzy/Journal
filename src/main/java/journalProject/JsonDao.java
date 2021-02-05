@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class JsonDao implements Dao<Entry> {
+public class JsonDao implements Dao {
 
     @Override
     public void add(Entry entry) {

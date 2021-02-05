@@ -1,12 +1,12 @@
 package journalProject;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface Dao<T> {
+public interface Dao {
 
-    void add(T entry);
+    void add(Entry entry);
 
     void delete(String id);
 
-    ArrayList<Entry> getEntries();
+    List<Entry> getEntries();
 }

@@ -1,5 +1,6 @@
 package journalProject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,13 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class MainController {
 
-    final JsonDao database = new JsonDao();
+    @Autowired
+    Dao database;
 
 
     @PostMapping("/sendForm")
@@ -35,7 +37,7 @@ public class MainController {
 
     @GetMapping("/entries")
     public String greeting(Model model) throws IOException {
-        ArrayList<Entry> entryList = database.getEntries();
+        List<Entry> entryList = database.getEntries();
         model.addAttribute("entries", entryList);
         return "entries";
     }
