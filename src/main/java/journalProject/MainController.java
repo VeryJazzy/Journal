@@ -35,10 +35,23 @@ public class MainController {
         return "redirect:/entries";
     }
 
-
     @GetMapping("/entries")
     public String greeting(Model model) throws IOException {
         List<Entry> entryList = database.getEntries();
+        model.addAttribute("entries", entryList);
+        return "entries";
+    }
+
+    @GetMapping("/sortDateNewest")
+    public String sortDateNewest(Model model) throws IOException {
+        List<Entry> entryList = database.getEntriesNew() ;
+        model.addAttribute("entries", entryList);
+        return "entries";
+    }
+
+    @GetMapping("/sortDateOldest")
+    public String sortDateOldest(Model model) throws IOException {
+        List<Entry> entryList = database.getEntriesOld();
         model.addAttribute("entries", entryList);
         return "entries";
     }

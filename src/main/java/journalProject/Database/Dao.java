@@ -9,4 +9,8 @@ public interface Dao {
     void delete(String id);
 
     List<Entry> getEntries();
+
+    List<Entry> getEntriesNew();
+
+    List<Entry> getEntriesOld();
 }

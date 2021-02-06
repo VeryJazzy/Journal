@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class JsonDao implements Dao {
 
@@ -87,5 +88,16 @@ public class JsonDao implements Dao {
             e.printStackTrace();
         }
         return entriesObj;
+    }
+
+
+    @Override
+    public List<Entry> getEntriesNew() {
+        return null;
+    }
+
+    @Override
+    public List<Entry> getEntriesOld() {
+        return null;
     }
 }

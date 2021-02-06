@@ -29,7 +29,16 @@ public class MySqlDao implements Dao {
         String query = "SELECT * FROM ENTRIES";
         return jdbcTemplate.query(query, new EntryRowMapper());
     }
+    public List<Entry> getEntriesNew() {
+        String query = "SELECT * FROM ENTRIES ORDER BY date";
+        return jdbcTemplate.query(query, new EntryRowMapper());
+    }
 
+    @Override
+    public List<Entry> getEntriesOld() {
+        String query = "SELECT * FROM ENTRIES ORDER BY date DESC";
+        return jdbcTemplate.query(query, new EntryRowMapper());
+    }
 
 
 }
