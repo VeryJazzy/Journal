@@ -1,4 +1,4 @@
-package journalProject;
+package journalProject.Database;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -16,7 +16,7 @@ public class MySqlDao implements Dao {
     @Override
     public void add(Entry entry) {
         jdbcTemplate.update("INSERT INTO ENTRIES VALUES (?, ?, ?, ?)",
-                entry.getId(), entry.getDate(), entry.getTitle(), entry.getMessage());
+                entry.getId(), entry.getTitle(), entry.getMessage(), entry.getDate());
     }
 
     @Override
@@ -29,6 +29,7 @@ public class MySqlDao implements Dao {
         String query = "SELECT * FROM ENTRIES";
         return jdbcTemplate.query(query, new EntryRowMapper());
     }
+
 
 
 }

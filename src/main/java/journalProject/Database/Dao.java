@@ -1,4 +1,4 @@
-package journalProject;
+package journalProject.Database;
 
 import java.util.List;
 

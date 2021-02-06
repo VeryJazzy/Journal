@@ -1,4 +1,4 @@
-package journalProject;
+package journalProject.Database;
 
 public class Entry {
 

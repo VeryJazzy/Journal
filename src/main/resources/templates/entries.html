@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="/css/entries.css">
 </head>
 
+<script>
+
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+</script>
+
 <body>
 <header class="img">
     <a href="index.html">
@@ -19,24 +40,38 @@
     <a class="buttons" href="aa">Button with broken link</a>
 </nav>
 <br>
+<div class="secondLine">
+    <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
 
-<img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Sort by</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#">Sort by Date - Newest</a>
+            <a href="#">Sort by Date - Oldest</a>
+        </div>
+    </div>
 
-<div th:each="entry : ${entries}">
-    <table>
-        <tr>
-            <th th:text="${entry.title}" class="title"></th>
-            <th th:text="${entry.date}" class="date-area"></th>
-        </tr>
-        <tr>
-            <td th:text="${entry.message}" class="message-area"></td>
-            <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');" th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <br>
 </div>
+
+
+
+    <div th:each="entry : ${entries}">
+        <table>
+            <tr>
+                <th th:text="${entry.title}" class="title"></th>
+                <th th:text="${entry.date}" class="date-area"></th>
+            </tr>
+            <tr>
+                <td th:text="${entry.message}" class="message-area"></td>
+                <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');"
+                                         th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+    </div>
+
 
 
 </body>

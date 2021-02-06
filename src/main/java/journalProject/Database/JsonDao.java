@@ -1,4 +1,4 @@
-package journalProject;
+package journalProject.Database;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class JournalApplication {
+public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(JournalApplication.class, args);
+        SpringApplication.run(Main.class, args);
     }
 
 }
