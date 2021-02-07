@@ -40,19 +40,31 @@ window.onclick = function(event) {
     <a class="buttons" href="aa">Button with broken link</a>
 </nav>
 <br>
+
+
+
 <div class="secondLine">
     <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+
+
+    <form class="search" action="/search" method="post">
+        <input class="searchBox" type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="searchButton">go</i></button>
+    </form>
+
 
     <div class="dropdown">
         <button onclick="myFunction()" class="dropbtn">Sort by</button>
         <div id="myDropdown" class="dropdown-content">
             <a href="entries">Order Added</a>
-            <a href="sortDateNewest">Date - Newest</a>
-            <a href="sortDateOldest">Date - Oldest</a>
+            <a href="sortNewest">Date - Newest</a>
+            <a href="sortOldest">Date - Oldest</a>
         </div>
     </div>
-
 </div>
+
+
+
 
 
 

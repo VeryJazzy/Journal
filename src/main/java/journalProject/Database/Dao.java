@@ -8,9 +8,9 @@ public interface Dao {
 
     void delete(String id);
 
-    List<Entry> getEntries();
+    List<Entry> getEntries(String sort);
 
-    List<Entry> getEntriesNew();
-
-    List<Entry> getEntriesOld();
+//    List<Entry> getEntriesNew();
+//
+//    List<Entry> getEntriesOld();
 }

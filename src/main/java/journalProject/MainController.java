@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,23 +38,25 @@ public class MainController {
 
     @GetMapping("/entries")
     public String greeting(Model model) throws IOException {
-        List<Entry> entryList = database.getEntries();
+        List<Entry> entryList = database.getEntries("");
         model.addAttribute("entries", entryList);
         return "entries";
     }
 
-    @GetMapping("/sortDateNewest")
+    @GetMapping("/sortNewest")
     public String sortDateNewest(Model model) throws IOException {
-        List<Entry> entryList = database.getEntriesNew() ;
+        List<Entry> entryList = database.getEntries(" ORDER BY date");
         model.addAttribute("entries", entryList);
         return "entries";
     }
 
-    @GetMapping("/sortDateOldest")
+    @GetMapping("/sortOldest")
     public String sortDateOldest(Model model) throws IOException {
-        List<Entry> entryList = database.getEntriesOld();
+        List<Entry> entryList = database.getEntries(" ORDER BY date DESC");
         model.addAttribute("entries", entryList);
         return "entries";
     }
 
+
+    //make these one mapping
 }

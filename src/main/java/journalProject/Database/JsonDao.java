@@ -7,8 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class JsonDao implements Dao {
 
@@ -30,25 +29,6 @@ public class JsonDao implements Dao {
         entriesAsList.remove(findIdIndex(entriesAsList, id));
 
         update(entriesObj);
-    }
-
-    @Override
-    public ArrayList<Entry> getEntries() {
-        ArrayList<Entry> entryList = new ArrayList<>();
-        JSONObject entriesObj = getEntriesObj();
-        JSONArray entriesAsList = (JSONArray) entriesObj.get("entries");
-
-        for (Object anEntry : entriesAsList) {
-            JSONObject jsonEntry = (JSONObject) anEntry;
-            String id = (String) jsonEntry.get("id");
-            String date = (String) jsonEntry.get("date");
-            String title = (String) jsonEntry.get("title");
-            String message = (String) jsonEntry.get("message");
-
-            Entry completeEntry = new Entry(id, date, title, message);
-            entryList.add(completeEntry);
-        }
-        return entryList;
     }
 
     private void update(JSONObject entriesObj) {
@@ -92,12 +72,50 @@ public class JsonDao implements Dao {
 
 
     @Override
-    public List<Entry> getEntriesNew() {
-        return null;
+    public ArrayList<Entry> getEntries(String sort) {
+        ArrayList<Entry> entryList = new ArrayList<>();
+        JSONObject entriesObj = getEntriesObj();
+        JSONArray entriesAsList = (JSONArray) entriesObj.get("entries");
+
+        for (Object anEntry : entriesAsList) {
+            JSONObject jsonEntry = (JSONObject) anEntry;
+            String date = formatDate((String) jsonEntry.get("date"));
+            // 2021-02-07
+            // 07/02/2021
+            String id = (String) jsonEntry.get("id");
+            String title = (String) jsonEntry.get("title");
+            String message = (String) jsonEntry.get("message");
+
+            Entry completeEntry = new Entry(id, date, title, message);
+            entryList.add(completeEntry);
+        }
+        return entryList;
     }
 
-    @Override
-    public List<Entry> getEntriesOld() {
-        return null;
+    private String formatDate(String date) {
+        String formattedDate = date.substring(8) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
+        return formattedDate.toString();
     }
+
+//    @Override
+//    public List<Entry> getEntriesNew() {
+//        // 2021-02-07
+//        // 07/02/2021
+//        ArrayList<Entry> entries = getEntries();
+//
+//        for (Entry e : entries) {
+//            String dateString = e.getDate();
+//            int year = Integer.parseInt(dateString.substring(6));
+//            int month = Integer.parseInt(dateString.substring(3, 5));
+//            int day = Integer.parseInt(dateString.substring(0, 2));
+//            Date date = new Date(year, month, day);
+//        }
+//        return entries;
+//    }
+//
+//    @Override
+//    public List<Entry> getEntriesOld() {
+//        ArrayList<Entry> entries = getEntries();
+//        return entries;
+//    }
 }
