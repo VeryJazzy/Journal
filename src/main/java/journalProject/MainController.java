@@ -30,6 +30,18 @@ public class MainController {
         return "redirect:/entries";
     }
 
+    @PostMapping("/search")
+    public String search(@RequestParam("searched") String searched, Model model) { // idk if model works here
+
+        List<Entry> entryList = database.getEntries(" where message like '%" + searched + "%'");
+        List<Entry> titleList = database.getEntries(" where title like '%" + searched + "%'");
+        entryList.addAll(titleList);
+        model.addAttribute("entries", entryList);
+        return "entries";
+    }
+
+
+
     @GetMapping("/deleteEntry/{id}")
     public String deleteEntry(@PathVariable("id") String id) {
         database.delete(id);
