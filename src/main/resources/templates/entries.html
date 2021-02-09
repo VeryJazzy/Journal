@@ -26,6 +26,7 @@ window.onclick = function(event) {
   }
 }
 
+
 </script>
 
 <body>
@@ -41,25 +42,22 @@ window.onclick = function(event) {
 </nav>
 <br>
 
-
+<div class="firstLine">
+    <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+</div>
 
 <div class="secondLine">
-    <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
 
-<form class="datepickers" action="/dateSearch" method="post">
-    <input type="date" id="startDate" name="searchStart">
-    <input type="date" id="endDate" name="searchEnd">
-    <button type="submit"><i class="searchButton">go</i></button>
-
-
-</form>
-
+    <form class="datePickers" action="/dateSearch" method="post">
+        <input type="date" id="startDate" name="searchStart">
+        <input type="date" id="endDate" name="searchEnd">
+        <button class="go" type="submit">go</button>
+    </form>
 
     <form class="search" action="/search" method="post">
         <input class="searchBox" type="text" placeholder="Search.." id="s" name="searched">
-        <button type="submit"><i class="searchButton">go</i></button>
+        <button class="go" type="submit">go</button>
     </form>
-
 
     <div class="dropdown">
         <button onclick="myFunction()" class="dropbtn">Sort by</button>
@@ -73,26 +71,22 @@ window.onclick = function(event) {
 
 
 
-
-
-
-    <div th:each="entry : ${entries}">
-        <table>
-            <tr>
-                <th th:text="${entry.title}" class="title"></th>
-                <th th:text="${entry.date}" class="date-area"></th>
-            </tr>
-            <tr>
-                <td th:text="${entry.message}" class="message-area"></td>
-                <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');"
-                                         th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
-                </td>
-            </tr>
-        </table>
-        <br>
-        <br>
-    </div>
-
+<div th:each="entry : ${entries}">
+    <table>
+        <tr>
+            <th th:text="${entry.title}" class="title"></th>
+            <th th:text="${entry.date}" class="date-area"></th>
+        </tr>
+        <tr>
+            <td th:text="${entry.message}" class="message-area"></td>
+            <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');"
+                                     th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+</div>
 
 
 </body>
