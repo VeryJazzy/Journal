@@ -26,4 +26,5 @@ public class Entry {
     public String getMessage() {
         return message;
     }
+
 }

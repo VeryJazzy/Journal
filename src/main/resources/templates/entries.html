@@ -46,6 +46,14 @@ window.onclick = function(event) {
 <div class="secondLine">
     <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
 
+<form class="datepickers" action="/dateSearch" method="post">
+    <input type="date" id="startDate" name="searchStart">
+    <input type="date" id="endDate" name="searchEnd">
+    <button type="submit"><i class="searchButton">go</i></button>
+
+
+</form>
+
 
     <form class="search" action="/search" method="post">
         <input class="searchBox" type="text" placeholder="Search.." id="s" name="searched">

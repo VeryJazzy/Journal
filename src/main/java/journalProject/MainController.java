@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -32,14 +30,18 @@ public class MainController {
 
     @PostMapping("/search")
     public String search(@RequestParam("searched") String searched, Model model) { // idk if model works here
-
-        List<Entry> entryList = database.getEntries(" where message like '%" + searched + "%'");
-        List<Entry> titleList = database.getEntries(" where title like '%" + searched + "%'");
-        entryList.addAll(titleList);
+        List<Entry> entryList = database.getEntries(" WHERE MATCH(title, message) AGAINST('+" + searched + "' IN BOOLEAN MODE)");
+        //select * from entries where match(title, message) against('day');
         model.addAttribute("entries", entryList);
         return "entries";
     }
 
+    @PostMapping("/dateSearch")
+    public String dateSearch(@RequestParam("searchStart") String start, @RequestParam("searchEnd") String end, Model model) {
+        List<Entry> entryList = database.getEntries(" where date between '" + start + "' and '" + end + "'");
+        model.addAttribute("entries", entryList);
+        return "entries";
+    }
 
 
     @GetMapping("/deleteEntry/{id}")
