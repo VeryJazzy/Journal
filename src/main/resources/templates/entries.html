@@ -27,6 +27,7 @@ window.onclick = function(event) {
 }
 
 
+
 </script>
 
 <body>
@@ -43,19 +44,22 @@ window.onclick = function(event) {
 <br>
 
 <div class="firstLine">
-    <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+    <a href="entries">
+        <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+    </a>
 </div>
 
 <div class="secondLine">
 
+
     <form class="datePickers" action="/dateSearch" method="post">
-        <input type="date" id="startDate" name="searchStart">
+        <input type="date" id="startDate" name="searchStart" required>
         <input type="date" id="endDate" name="searchEnd">
         <button class="go" type="submit">go</button>
     </form>
 
     <form class="search" action="/search" method="post">
-        <input class="searchBox" type="text" placeholder="Search.." id="s" name="searched">
+        <input class="searchBox" type="text" placeholder="Search.." id="s" name="searched" required>
         <button class="go" type="submit">go</button>
     </form>
 
@@ -69,7 +73,9 @@ window.onclick = function(event) {
     </div>
 </div>
 
-
+<div class="no entries">
+    <p th:text="${message}"></p>
+</div>
 
 <div th:each="entry : ${entries}">
     <table>
