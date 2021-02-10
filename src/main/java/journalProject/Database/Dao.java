@@ -10,7 +10,4 @@ public interface Dao {
 
     List<Entry> getEntries(String sort);
 
-//    List<Entry> getEntriesNew();
-//
-//    List<Entry> getEntriesOld();
 }
