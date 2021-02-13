@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -33,14 +37,26 @@ public class MainController {
     }
 
     @GetMapping("/entries")
-    public String greeting(Model model) throws IOException {
+    public String greeting(Model model, HttpServletResponse response) throws IOException {
+        Sort.resetQuery();
+        //clears all cookies
+        Cookie searchCookie = new Cookie("SearchQuery", null);
+        searchCookie.setMaxAge(0);
+        response.addCookie(searchCookie);
+        Cookie fromCookie = new Cookie("SearchFrom", null);
+        fromCookie.setMaxAge(0);
+        response.addCookie(fromCookie);
+        Cookie toCookie = new Cookie("SearchTo", null);
+        toCookie.setMaxAge(0);
+        response.addCookie(toCookie);
+
         model.addAttribute("entries", database.getEntries(""));
         return "entries";
     }
 
     @PostMapping("/search")
-    public String search(@RequestParam("searched") String searched, Model model) { // idk if model works here
-        List<Entry> entryList = Sort.BooleanSearch(database, searched);
+    public String search(@RequestParam("searched") String searched, Model model, HttpServletResponse response) { // idk if model works here
+        List<Entry> entryList = Sort.BooleanSearch(database, searched, response);
         if (entryList.isEmpty()) {
             model.addAttribute("message", "no entries for this search");
             return "entries";
@@ -50,8 +66,8 @@ public class MainController {
     }
 
     @PostMapping("/dateSearch")
-    public String dateSearch(@RequestParam("searchStart") String from, @RequestParam("searchEnd") String to, Model model) {
-        model.addAttribute("entries", Sort.searchDates(database, from, to));
+    public String dateSearch(@RequestParam("searchStart") String from, @RequestParam("searchEnd") String to, Model model, HttpServletResponse response) {
+        model.addAttribute("entries", Sort.searchDates(database, from, to, response));
         return "entries";
     }
 
