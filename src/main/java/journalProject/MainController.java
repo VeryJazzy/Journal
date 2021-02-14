@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -38,16 +36,18 @@ public class MainController {
 
     @GetMapping("/entries")
     public String greeting(Model model, HttpServletResponse response) throws IOException {
-        Sort.resetQuery();
+
         //clears all cookies
-        Cookie searchCookie = new Cookie("SearchQuery", null);
-        searchCookie.setMaxAge(0);
+        Cookie searchCookie = new Cookie("SearchQuery", "");
+        searchCookie.setMaxAge(60 * 60 * 24);
         response.addCookie(searchCookie);
-        Cookie fromCookie = new Cookie("SearchFrom", null);
-        fromCookie.setMaxAge(0);
+
+        Cookie fromCookie = new Cookie("SearchFrom", "");
+        fromCookie.setMaxAge(60 * 60 * 24);
         response.addCookie(fromCookie);
-        Cookie toCookie = new Cookie("SearchTo", null);
-        toCookie.setMaxAge(0);
+
+        Cookie toCookie = new Cookie("SearchTo", "");
+        toCookie.setMaxAge(60 * 60 * 24);
         response.addCookie(toCookie);
 
         model.addAttribute("entries", database.getEntries(""));
@@ -72,8 +72,13 @@ public class MainController {
     }
 
     @RequestMapping("/sort")
-    public String sortDate(@RequestParam("order") String order, Model model) throws IOException {
-        model.addAttribute("entries", Sort.sortBy(database, order));
+    public String sortDate(Model model,
+                           @RequestParam("order") String order,
+                           @CookieValue("SearchQuery") Cookie searchQuery,
+                           @CookieValue("SearchFrom") Cookie searchFrom,
+                           @CookieValue("SearchTo") Cookie searchTo) throws IOException {
+
+        model.addAttribute("entries", Sort.sortBy(database, order, searchQuery, searchFrom, searchTo));
         return "entries";
     }
 

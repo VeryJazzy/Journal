@@ -9,10 +9,8 @@ import java.util.List;
 
 public class Sort {
 
-    private static String query = "";
-
     public static List<Entry> BooleanSearch(Dao database, String searched, HttpServletResponse response) {
-        query = " WHERE MATCH(title, message) AGAINST('+" + searched + "' IN BOOLEAN MODE)";
+        String query = " WHERE MATCH(title, message) AGAINST('+" + searched + "' IN BOOLEAN MODE)";
 
         Cookie searchCookie = new Cookie("SearchQuery", URLEncoder.encode(searched, StandardCharsets.UTF_8));
         searchCookie.setMaxAge(60*60*24);
@@ -25,7 +23,7 @@ public class Sort {
         if (to.equals("")) {
             to = LocalDate.now().toString();
         }
-        query = " WHERE date BETWEEN '" + from + "' and '" + to + "'";
+        String query = " WHERE date BETWEEN '" + from + "' and '" + to + "'";
 
         Cookie fromCookie = new Cookie("SearchFrom", URLEncoder.encode(from, StandardCharsets.UTF_8));
         fromCookie.setMaxAge(60*60*24);
@@ -38,7 +36,15 @@ public class Sort {
         return database.getEntries(query);
     }
 
-    public static List<Entry> sortBy(Dao database, String order) {
+    public static List<Entry> sortBy(Dao database, String order, Cookie searchQuery, Cookie searchFrom, Cookie searchTo) {
+        String query = "";
+
+        if (searchQuery.getValue() != "") {
+            query = " WHERE MATCH(title, message) AGAINST('+" + searchQuery.getValue() + "' IN BOOLEAN MODE)";
+        }
+        if (searchFrom.getValue() != "") {
+            query = " WHERE date BETWEEN '" + searchFrom.getValue() + "' and '" + searchTo.getValue() + "'";
+        }
         switch (order) {
             case "NEWEST" -> {
                 return database.getEntries(query + " ORDER BY date DESC");
@@ -48,10 +54,6 @@ public class Sort {
             }
         }
         return null;
-    }
-
-    public static void resetQuery() {
-        query = "";
     }
 
 }
