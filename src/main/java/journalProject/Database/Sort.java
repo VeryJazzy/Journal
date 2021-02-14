@@ -10,31 +10,24 @@ import java.util.List;
 public class Sort {
 
     public static List<Entry> BooleanSearch(Dao database, String searched, HttpServletResponse response) {
-        String query = " WHERE MATCH(title, message) AGAINST('+" + searched + "' IN BOOLEAN MODE)";
+        response.addCookie(createCookie("SearchQuery", URLEncoder.encode(searched, StandardCharsets.UTF_8)));
 
-        Cookie searchCookie = new Cookie("SearchQuery", URLEncoder.encode(searched, StandardCharsets.UTF_8));
-        searchCookie.setMaxAge(60*60*24);
-        response.addCookie(searchCookie);
-
-        return database.getEntries(query);
+        return database.getEntries(" WHERE MATCH(title, message) AGAINST('+" + searched + "' IN BOOLEAN MODE)");
     }
 
     public static List<Entry> searchDates(Dao database, String from, String to, HttpServletResponse response) {
         if (to.equals("")) {
             to = LocalDate.now().toString();
         }
-        String query = " WHERE date BETWEEN '" + from + "' and '" + to + "'";
+        response.addCookie(createCookie("SearchFrom", URLEncoder.encode(from, StandardCharsets.UTF_8)));
+        response.addCookie(createCookie("SearchTo", URLEncoder.encode(to, StandardCharsets.UTF_8)));
 
-        Cookie fromCookie = new Cookie("SearchFrom", URLEncoder.encode(from, StandardCharsets.UTF_8));
-        fromCookie.setMaxAge(60*60*24);
-        response.addCookie(fromCookie);
-
-        Cookie toCookie = new Cookie("SearchTo", URLEncoder.encode(to, StandardCharsets.UTF_8));
-        toCookie.setMaxAge(60*60*24);
-        response.addCookie(toCookie);
-
-        return database.getEntries(query);
+        return database.getEntries(" WHERE date BETWEEN '" + from + "' and '" + to + "'");
     }
+
+
+
+
 
     public static List<Entry> sortBy(Dao database, String order, Cookie searchQuery, Cookie searchFrom, Cookie searchTo) {
         String query = "";
@@ -56,5 +49,10 @@ public class Sort {
         return null;
     }
 
+    public static Cookie createCookie(String name, String value){
+        Cookie cookie = new Cookie(name, value);
+        cookie.setMaxAge(60*60*24);
+        return cookie;
+    }
 }
 
