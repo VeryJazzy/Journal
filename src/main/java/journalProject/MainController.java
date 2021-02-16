@@ -2,7 +2,6 @@ package journalProject;
 
 import journalProject.Database.Dao;
 import journalProject.Database.Entry;
-import journalProject.Database.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -21,8 +23,8 @@ public class MainController {
 
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
-        String id = UUID.randomUUID().toString();
 
+        String id = UUID.randomUUID().toString();
         Entry entry = new Entry(id, date, title, message);
         database.add(entry);
         return "redirect:/entries";
@@ -36,27 +38,21 @@ public class MainController {
 
     @GetMapping("/entries")
     public String greeting(Model model, HttpServletResponse response) throws IOException {
+        response.addCookie(new Cookie("searchTerms", ""));
+        response.addCookie(new Cookie("searchDateFrom", ""));
+        response.addCookie(new Cookie("searchDateTo", ""));
 
-        //clears all cookies
-        Cookie searchCookie = new Cookie("SearchQuery", "");
-        searchCookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(searchCookie);
-
-        Cookie fromCookie = new Cookie("SearchFrom", "");
-        fromCookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(fromCookie);
-
-        Cookie toCookie = new Cookie("SearchTo", "");
-        toCookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(toCookie);
-
-        model.addAttribute("entries", database.getEntries(""));
+        model.addAttribute("entries", database.getEntries("", "", "", ""));
         return "entries";
     }
 
+
     @PostMapping("/search")
-    public String search(@RequestParam("searched") String searched, Model model, HttpServletResponse response) { // idk if model works here
-        List<Entry> entryList = Sort.BooleanSearch(database, searched, response);
+    public String search(@RequestParam("searchTerms") String searched, Model model, HttpServletResponse response) {
+        response.addCookie(new Cookie("searchTerms", URLEncoder.encode(searched, StandardCharsets.UTF_8)));
+
+        List<Entry> entryList = database.getEntries(searched, "", "", "");
+
         if (entryList.isEmpty()) {
             model.addAttribute("message", "no entries for this search");
             return "entries";
@@ -66,19 +62,26 @@ public class MainController {
     }
 
     @PostMapping("/dateSearch")
-    public String dateSearch(@RequestParam("searchStart") String from, @RequestParam("searchEnd") String to, Model model, HttpServletResponse response) {
-        model.addAttribute("entries", Sort.searchDates(database, from, to, response));
+    public String dateSearch(@RequestParam("searchFrom") String from, @RequestParam("searchTo") String to, Model model, HttpServletResponse response) {
+        if (to.equals("")) {
+            to = LocalDate.now().toString();
+        }
+        response.addCookie(new Cookie("searchDateFrom", URLEncoder.encode(from, StandardCharsets.UTF_8)));
+        response.addCookie(new Cookie("searchDateTo", URLEncoder.encode(to, StandardCharsets.UTF_8)));
+
+        model.addAttribute("entries", database.getEntries("", from, to, ""));
         return "entries";
     }
 
     @RequestMapping("/sort")
     public String sortDate(Model model,
                            @RequestParam("order") String order,
-                           @CookieValue("SearchQuery") Cookie searchQuery,
-                           @CookieValue("SearchFrom") Cookie searchFrom,
-                           @CookieValue("SearchTo") Cookie searchTo) throws IOException {
-
-        model.addAttribute("entries", Sort.sortBy(database, order, searchQuery, searchFrom, searchTo));
+                           @CookieValue("searchTerms") Cookie searchTerms,
+                           @CookieValue("searchDateFrom") Cookie searchFrom,
+                           @CookieValue("searchDateTo") Cookie searchTo,
+                           HttpServletResponse response) throws IOException {
+        List<Entry> entryList = database.getEntries(searchTerms.getValue(), searchFrom.getValue(), searchTo.getValue(), order);
+        model.addAttribute("entries", entryList);
         return "entries";
     }
 

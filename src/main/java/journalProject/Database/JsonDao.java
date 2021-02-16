@@ -3,6 +3,7 @@ package journalProject.Database;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.servlet.http.Cookie;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -70,9 +71,8 @@ public class JsonDao implements Dao {
         return entriesObj;
     }
 
-
     @Override
-    public ArrayList<Entry> getEntries(String sort) {
+    public ArrayList<Entry> getEntries(String searchType, String searchTerm, String searchFrom, String searchTo) {
         ArrayList<Entry> entryList = new ArrayList<>();
         JSONObject entriesObj = getEntriesObj();
         JSONArray entriesAsList = (JSONArray) entriesObj.get("entries");
@@ -92,30 +92,14 @@ public class JsonDao implements Dao {
         return entryList;
     }
 
+    @Override
+    public String queryBuilder(String requestType, String searchTerm, String searchFrom, String searchTo) {
+        return null;
+    }
+
     private String formatDate(String date) {
         String formattedDate = date.substring(8) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
         return formattedDate.toString();
     }
 
-//    @Override
-//    public List<Entry> getEntriesNew() {
-//        // 2021-02-07
-//        // 07/02/2021
-//        ArrayList<Entry> entries = getEntries();
-//
-//        for (Entry e : entries) {
-//            String dateString = e.getDate();
-//            int year = Integer.parseInt(dateString.substring(6));
-//            int month = Integer.parseInt(dateString.substring(3, 5));
-//            int day = Integer.parseInt(dateString.substring(0, 2));
-//            Date date = new Date(year, month, day);
-//        }
-//        return entries;
-//    }
-//
-//    @Override
-//    public List<Entry> getEntriesOld() {
-//        ArrayList<Entry> entries = getEntries();
-//        return entries;
-//    }
 }

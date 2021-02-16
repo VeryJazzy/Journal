@@ -53,13 +53,13 @@ window.onclick = function(event) {
 
 
     <form class="datePickers" action="/dateSearch" method="post">
-        <input type="date" id="startDate" name="searchStart" required>
-        <input type="date" id="endDate" name="searchEnd">
+        <input type="date" id="startDate" name="searchFrom" required>
+        <input type="date" id="endDate" name="searchTo">
         <button class="go" type="submit">go</button>
     </form>
 
     <form class="search" action="/search" method="post">
-        <input class="searchBox" type="text" placeholder="Search.." id="s" name="searched" required>
+        <input class="searchBox" type="text" placeholder="Search.." id="s" name="searchTerms" required>
         <button class="go" type="submit">go</button>
     </form>
 
