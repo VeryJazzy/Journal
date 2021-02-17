@@ -23,7 +23,6 @@ public class MainController {
 
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
-
         String id = UUID.randomUUID().toString();
         Entry entry = new Entry(id, date, title, message);
         database.add(entry);
@@ -68,6 +67,8 @@ public class MainController {
         }
         response.addCookie(new Cookie("searchDateFrom", URLEncoder.encode(from, StandardCharsets.UTF_8)));
         response.addCookie(new Cookie("searchDateTo", URLEncoder.encode(to, StandardCharsets.UTF_8)));
+        response.addCookie(new Cookie("searchTerms",""));
+
 
         model.addAttribute("entries", database.getEntries("", from, to, ""));
         return "entries";

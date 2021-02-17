@@ -38,7 +38,10 @@ public class MySqlDao implements Dao {
         } else if (!searchFrom.equals("")) {
             query.append(" WHERE date BETWEEN '").append(searchFrom).append("' and '").append(searchTo).append("'");
         }
-        query.append(checkSort(sort));
+        if (!sort.equals("")) {
+            query.append(checkSort(sort));
+        }
+
 
         return query.toString();
     }
