@@ -67,7 +67,7 @@ public class MainController {
         }
         response.addCookie(new Cookie("searchDateFrom", URLEncoder.encode(from, StandardCharsets.UTF_8)));
         response.addCookie(new Cookie("searchDateTo", URLEncoder.encode(to, StandardCharsets.UTF_8)));
-        response.addCookie(new Cookie("searchTerms",""));
+        response.addCookie(new Cookie("searchTerms", ""));
 
 
         model.addAttribute("entries", database.getEntries("", from, to, ""));

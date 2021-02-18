@@ -41,8 +41,6 @@ public class MySqlDao implements Dao {
         if (!sort.equals("")) {
             query.append(checkSort(sort));
         }
-
-
         return query.toString();
     }
 
