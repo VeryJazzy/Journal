@@ -9,22 +9,22 @@
 
 <script>
 
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
+<!--function myFunction() {-->
+<!--  document.getElementById("myDropdown").classList.toggle("show");-->
+<!--}-->
 
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
+<!--window.onclick = function(event) {-->
+<!--  if (!event.target.matches('.dropbtn')) {-->
+<!--    var dropdowns = document.getElementsByClassName("dropdown-content");-->
+<!--    var i;-->
+<!--    for (i = 0; i < dropdowns.length; i++) {-->
+<!--      var openDropdown = dropdowns[i];-->
+<!--      if (openDropdown.classList.contains('show')) {-->
+<!--        openDropdown.classList.remove('show');-->
+<!--      }-->
+<!--    }-->
+<!--  }-->
+<!--}-->
 
 
 
@@ -35,11 +35,13 @@ window.onclick = function(event) {
     <a href="index.html">
         <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
     </a>
+    <a class="logoutButton" onclick="return window.confirm('Are you sure?');" href="logout" >Logout</a>
 </header>
+
 <nav>
     <a class="buttons" href="entries">Journal entries</a>
     <a class="buttons" href="add entry.html">Add an Entry</a>
-    <a class="buttons" href="aa">Button with broken link</a>
+    <a class="buttons" href="aa">Error Page</a>
 </nav>
 <br>
 

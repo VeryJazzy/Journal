@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("jack").password(passwordEncoder().encode("password")).roles("USER");
+        auth.inMemoryAuthentication().withUser("jack").password(passwordEncoder().encode("p")).roles("USER");
     }
 
     @Override
@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/css/**", "/images/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
 
@@ -34,7 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/index.html", true)
                 .failureUrl("/login?error")
-                .permitAll(true);
+                .permitAll(true)
+
+                .and()
+                .logout()
+                .logoutUrl("/login?logout");
+                //needs logout success handler?
+
     }
 
 

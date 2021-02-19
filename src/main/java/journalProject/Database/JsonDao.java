@@ -3,7 +3,6 @@ package journalProject.Database;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.servlet.http.Cookie;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
