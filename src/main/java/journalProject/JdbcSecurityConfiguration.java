@@ -1,5 +1,6 @@
 package journalProject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,17 +9,37 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("jack").password(passwordEncoder().encode("p")).roles("USER");
+//        auth
+//                .inMemoryAuthentication()
+//                .withUser("jack")
+//                .password(passwordEncoder().encode("p"))
+//                .roles("USER");
+        auth
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery(
+                        "SELECT username, password, enabled from users where username = ?")
+                .authoritiesByUsernameQuery(
+                        "SELECT u.username, a.authority FROM user_authorities a, users u WHERE u.username = ? AND u.id = a.user_id"
+                );
+
     }
 
     @Override
@@ -36,14 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/index.html", true)
                 .failureUrl("/login?error")
-                .permitAll(true)
+                .permitAll(true);
 
-                .and()
-                .logout()
-                .logoutUrl("/login?logout");
-                //needs logout success handler?
+//        .authorizeRequests()
+//                .antMatchers("/devs/*").hasAnyRole("boss", "dev")
+//                .antMatchers("/boss/*").hasRole("boss")
+//                .antMatchers("/").permitAll();
 
     }
+
 
 
 }

@@ -21,6 +21,12 @@ public class MainController {
     @Autowired
     Dao database;
 
+    @PostMapping("/register")
+    public String registerNewUser(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+        database.registerNewUser(username,password);
+        return "redirect:/entries";
+    }
+
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
         String id = UUID.randomUUID().toString();

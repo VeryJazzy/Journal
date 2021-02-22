@@ -22,7 +22,7 @@ public class DatabaseConfig {
 
     @Bean
     public Dao getMySqlDao() {
-        return new MySqlDao(mysqlDataSource());
+        return new MySqlDatabase(mysqlDataSource());
     }
 
 //    @Bean

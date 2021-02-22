@@ -96,6 +96,11 @@ public class JsonDao implements Dao {
         return null;
     }
 
+    @Override
+    public String registerNewUser(String username, String password) {
+        return null;
+    }
+
     private String formatDate(String date) {
         String formattedDate = date.substring(8) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
         return formattedDate.toString();

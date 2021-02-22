@@ -10,4 +10,6 @@ public interface Dao {
     List<Entry> getEntries(String searchTerm, String searchFrom, String searchTo, String sort);
 
     String queryBuilder(String searchTerms, String searchFrom, String searchTo, String sort);
+
+    String registerNewUser(String username,String password);
 }

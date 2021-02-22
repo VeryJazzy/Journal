@@ -1,15 +1,25 @@
 package journalProject.Database;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.UUID;
 
-public class MySqlDao implements Dao {
+public class MySqlDatabase implements Dao {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     private JdbcTemplate jdbcTemplate;
 
-    public MySqlDao(DataSource ds) {
+    public MySqlDatabase(DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
 
@@ -51,6 +61,22 @@ public class MySqlDao implements Dao {
             return " ORDER BY date";
         }
         return "";
+    }
+
+    @Override
+    public String registerNewUser(String username,String password) {
+        String userID = UUID.randomUUID().toString();
+        jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?)",
+                userID,
+                username,
+                passwordEncoder().encode(password),
+                1);
+        jdbcTemplate.update("INSERT INTO user_authorities VALUES (?, ?, ?)",
+                UUID.randomUUID().toString(),
+                userID,
+                "USER");
+
+        return "/login";
     }
 
 
