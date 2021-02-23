@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Journal</title>
+    <link rel="stylesheet" href="/css/loginPage.css">
+
+</head>
+
+<script language='javascript' type='text/javascript'>
+    function check(input) {
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Password Must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
+
+<header>
+    <a href="index.html">
+        <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
+    </a>
+</header>
+
+<body>
+<br>
+<div class="form-style-6">
+    <img src="/images/register.png" alt="image didnt load" width="300" height="auto">
+
+
+    <div th:action="@{/login}">
+        <p th:if="${param.userAlreadyExists}" class="alert-error">
+            User already exists
+        </p>
+    </div>
+
+
+    <form action="/register" method="post">
+        <input type="text" id="newUsername" name="username" placeholder="Username" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" oninput="check(this)" required>
+        <button type="submit" class="button">Create User</button>
+    </form>
+
+</div>
+
+</body>
+
+</html>

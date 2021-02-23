@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +19,26 @@ public class MySqlDatabase implements Dao {
 
     public MySqlDatabase(DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
+    }
+
+
+    @Override
+    public boolean registerNewUser(String username, String password) {
+        String userID = UUID.randomUUID().toString();
+        try {
+            jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?)",
+                    userID,
+                    username,
+                    passwordEncoder().encode(password),
+                    1);
+            jdbcTemplate.update("INSERT INTO user_authorities VALUES (?, ?, ?)",
+                    UUID.randomUUID().toString(),
+                    userID,
+                    "USER");
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -62,23 +80,5 @@ public class MySqlDatabase implements Dao {
         }
         return "";
     }
-
-    @Override
-    public String registerNewUser(String username,String password) {
-        String userID = UUID.randomUUID().toString();
-        jdbcTemplate.update("INSERT INTO users VALUES (?, ?, ?, ?)",
-                userID,
-                username,
-                passwordEncoder().encode(password),
-                1);
-        jdbcTemplate.update("INSERT INTO user_authorities VALUES (?, ?, ?)",
-                UUID.randomUUID().toString(),
-                userID,
-                "USER");
-
-        return "/login";
-    }
-
-
 
 }

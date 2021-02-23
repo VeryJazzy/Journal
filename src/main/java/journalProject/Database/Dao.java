@@ -11,5 +11,5 @@ public interface Dao {
 
     String queryBuilder(String searchTerms, String searchFrom, String searchTo, String sort);
 
-    String registerNewUser(String username,String password);
+    boolean registerNewUser(String username,String password);
 }

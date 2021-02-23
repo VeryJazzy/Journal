@@ -97,8 +97,8 @@ public class JsonDao implements Dao {
     }
 
     @Override
-    public String registerNewUser(String username, String password) {
-        return null;
+    public boolean registerNewUser(String username, String password) {
+        return true;
     }
 
     private String formatDate(String date) {

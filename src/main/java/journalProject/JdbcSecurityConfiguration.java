@@ -2,12 +2,15 @@ package journalProject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -25,11 +28,6 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("jack")
-//                .password(passwordEncoder().encode("p"))
-//                .roles("USER");
         auth
                 .jdbcAuthentication()
                 .dataSource(dataSource)
@@ -37,9 +35,12 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery(
                         "SELECT username, password, enabled from users where username = ?")
                 .authoritiesByUsernameQuery(
-                        "SELECT u.username, a.authority FROM user_authorities a, users u WHERE u.username = ? AND u.id = a.user_id"
-                );
+                        "SELECT u.username, a.authority FROM user_authorities a, users u WHERE u.username = ? AND u.id = a.user_id");
+    }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/createNewUser");
     }
 
     @Override
@@ -47,7 +48,7 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**")
+                .antMatchers("/css/**", "/images/**", "/register")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -58,13 +59,8 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index.html", true)
                 .failureUrl("/login?error")
                 .permitAll(true);
-
-//        .authorizeRequests()
-//                .antMatchers("/devs/*").hasAnyRole("boss", "dev")
-//                .antMatchers("/boss/*").hasRole("boss")
-//                .antMatchers("/").permitAll();
-
     }
+
 
 
 
