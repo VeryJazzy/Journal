@@ -21,6 +21,12 @@ public class MainController {
     @Autowired
     Dao database;
 
+    @GetMapping("/error")
+    public String error() {
+        System.out.println("errorBaby");
+        return "error";
+    }
+
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
         String id = UUID.randomUUID().toString();
