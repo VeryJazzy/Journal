@@ -3,9 +3,6 @@ package journalProject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Controller
 public class SecurityController {
 
@@ -14,16 +11,9 @@ public class SecurityController {
         return "loginPage";
     }
 
-    @GetMapping("/customLogout")
-    public String logout(HttpServletResponse response, HttpServletRequest request) {
-        request.getSession(true).invalidate();
+    @GetMapping("/logout")
+    public String logout() {
         return "loginPage";
     }
-
-
-
-
-
-
 
 }

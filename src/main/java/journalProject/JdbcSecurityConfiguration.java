@@ -39,16 +39,11 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/createNewUser");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/register")
+                .antMatchers("/css/**", "/images/**", "/createNewUser", "/register/**", "/login/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

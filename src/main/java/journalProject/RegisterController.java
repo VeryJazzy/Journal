@@ -15,17 +15,17 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String registerNewUser(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-        boolean registered = database.registerNewUser(username, password);
-        if (!registered) {
-            System.out.println("user already exists");
-            return "redirect:/login?userAlreadyExists";
+        boolean registerSuccessful = database.registerNewUser(username, password);
+        if (!registerSuccessful) {
+            return "redirect:/createNewUser?userAlreadyExists";
         }
-        return "redirect:/index.html";
+        System.out.println("user created");
+        return "redirect:/login?userCreated";
     }
 
     @GetMapping("/createNewUser")
     public String createNewUser() {
-        return "createNewUser.html";
+        return "registerUser.html";
     }
 
 

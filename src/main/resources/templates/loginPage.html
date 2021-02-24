@@ -28,6 +28,9 @@
         <p th:if="${param.error}" class="alert-error" >
             Invalid username or password.
         </p>
+        <p th:if="${param.userCreated}" class="alert-error" >
+            User successfully created.
+        </p>
     </div>
 
 
