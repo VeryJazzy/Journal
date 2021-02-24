@@ -11,7 +11,9 @@ class EntryRowMapper implements RowMapper<Entry> {
     public Entry mapRow(ResultSet rs, int rowNum) throws SQLException {
         String date = formatDate(rs.getString("date"));
 
-        return new Entry(rs.getString("id"),
+        return new Entry(
+                rs.getString("user"),
+                rs.getString("id"),
                 date,
                 rs.getString("title"),
                 rs.getString("message"));

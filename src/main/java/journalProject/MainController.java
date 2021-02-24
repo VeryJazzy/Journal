@@ -3,6 +3,8 @@ package journalProject;
 import journalProject.Database.Dao;
 import journalProject.Database.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +23,13 @@ public class MainController {
     @Autowired
     Dao database;
 
-    @GetMapping("/error")
-    public String error() {
-        System.out.println("errorBaby");
-        return "error";
-    }
-
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
         String id = UUID.randomUUID().toString();
-        Entry entry = new Entry(id, date, title, message);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
+
+        Entry entry = new Entry(user, id, date, title, message);
         database.add(entry);
         return "redirect:/entries";
     }

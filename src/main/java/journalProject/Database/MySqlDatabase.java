@@ -2,6 +2,8 @@ package journalProject.Database;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
@@ -20,7 +22,6 @@ public class MySqlDatabase implements Dao {
     public MySqlDatabase(DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
-
 
     @Override
     public boolean registerNewUser(String username, String password) {
@@ -43,7 +44,7 @@ public class MySqlDatabase implements Dao {
 
     @Override
     public void add(Entry entry) {
-        jdbcTemplate.update("INSERT INTO ENTRIES VALUES (?, ?, ?, ?)", entry.getId(), entry.getTitle(), entry.getMessage(), entry.getDate());
+        jdbcTemplate.update("INSERT INTO ENTRIES VALUES (?, ?, ?, ?, ?)", entry.getUser(), entry.getId(), entry.getTitle(), entry.getMessage(), entry.getDate());
     }
 
     @Override
@@ -53,23 +54,38 @@ public class MySqlDatabase implements Dao {
 
     @Override
     public List<Entry> getEntries(String searchTerm, String searchFrom, String searchTo, String sort) {
-        String query = queryBuilder(searchTerm, searchFrom, searchTo, sort);
-        return jdbcTemplate.query(query, new EntryRowMapper());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
+
+        Query queryObj = new Query(user, searchTerm, searchFrom, searchTo, sort);
+        String queryString = queryBuilder(queryObj);
+        return jdbcTemplate.query(queryString, new EntryRowMapper());
     }
 
     @Override
-    public String queryBuilder(String searchTerms, String searchFrom, String searchTo, String sort) {
-        StringBuilder query = new StringBuilder("SELECT * FROM ENTRIES");
+    public String queryBuilder(Query query) {
+        StringBuilder queryString = new StringBuilder("SELECT * FROM ENTRIES WHERE USER = '" + query.getUser() + "'");
 
-        if (!searchTerms.equals("")) {
-            query.append(" WHERE MATCH(title, message) AGAINST('+").append(searchTerms).append("' IN BOOLEAN MODE)");
-        } else if (!searchFrom.equals("")) {
-            query.append(" WHERE date BETWEEN '").append(searchFrom).append("' and '").append(searchTo).append("'");
+        if (!query.getSearchTerms().equals("")) {
+            queryString
+                    .append(" AND MATCH(title, message) AGAINST ('+")
+                    .append(query.getSearchTerms())
+                    .append("' IN BOOLEAN MODE)");
         }
-        if (!sort.equals("")) {
-            query.append(checkSort(sort));
+
+        else if (!query.getSearchFrom().equals("")) {
+            queryString
+                    .append(" AND date BETWEEN '")
+                    .append(query.getSearchFrom())
+                    .append("' and '").append(query.getSearchTo())
+                    .append("'");
         }
-        return query.toString();
+
+        if (!query.getSort().equals("")) {
+            queryString.append(checkSort(query.getSort()));
+        }
+
+        return queryString.toString();
     }
 
     public String checkSort(String sort) {

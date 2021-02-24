@@ -84,15 +84,16 @@ public class JsonDao implements Dao {
             String id = (String) jsonEntry.get("id");
             String title = (String) jsonEntry.get("title");
             String message = (String) jsonEntry.get("message");
+            String user = "UNKNOWN";
 
-            Entry completeEntry = new Entry(id, date, title, message);
+            Entry completeEntry = new Entry(user, id, date, title, message);
             entryList.add(completeEntry);
         }
         return entryList;
     }
 
     @Override
-    public String queryBuilder(String requestType, String searchTerm, String searchFrom, String searchTo) {
+    public String queryBuilder(Query query) {
         return null;
     }
 
