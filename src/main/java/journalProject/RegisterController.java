@@ -19,7 +19,6 @@ public class RegisterController {
         if (!registerSuccessful) {
             return "redirect:/createNewUser?userAlreadyExists";
         }
-        System.out.println("user created");
         return "redirect:/login?userCreated";
     }
 

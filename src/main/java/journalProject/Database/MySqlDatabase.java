@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
@@ -56,45 +57,14 @@ public class MySqlDatabase implements Dao {
     public List<Entry> getEntries(String searchTerm, String searchFrom, String searchTo, String sort) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String user = authentication.getName();
+        String query = new Query.Builder()
+                .withUser(user)
+                .withSearchTerms(searchTerm)
+                .searchDates(searchFrom, searchTo)
+                .sort(sort)
+                .build();
 
-        Query queryObj = new Query(user, searchTerm, searchFrom, searchTo, sort);
-        String queryString = queryBuilder(queryObj);
-        return jdbcTemplate.query(queryString, new EntryRowMapper());
-    }
-
-    @Override
-    public String queryBuilder(Query query) {
-        StringBuilder queryString = new StringBuilder("SELECT * FROM ENTRIES WHERE USER = '" + query.getUser() + "'");
-
-        if (!query.getSearchTerms().equals("")) {
-            queryString
-                    .append(" AND MATCH(title, message) AGAINST ('+")
-                    .append(query.getSearchTerms())
-                    .append("' IN BOOLEAN MODE)");
-        }
-
-        else if (!query.getSearchFrom().equals("")) {
-            queryString
-                    .append(" AND date BETWEEN '")
-                    .append(query.getSearchFrom())
-                    .append("' and '").append(query.getSearchTo())
-                    .append("'");
-        }
-
-        if (!query.getSort().equals("")) {
-            queryString.append(checkSort(query.getSort()));
-        }
-
-        return queryString.toString();
-    }
-
-    public String checkSort(String sort) {
-        if (sort.equals("NEWEST")) {
-            return " ORDER BY date DESC";
-        } else if (sort.equals("OLDEST")) {
-            return " ORDER BY date";
-        }
-        return "";
+        return jdbcTemplate.query(query, new EntryRowMapper());
     }
 
 }

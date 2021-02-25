@@ -92,10 +92,6 @@ public class JsonDao implements Dao {
         return entryList;
     }
 
-    @Override
-    public String queryBuilder(Query query) {
-        return null;
-    }
 
     @Override
     public boolean registerNewUser(String username, String password) {
