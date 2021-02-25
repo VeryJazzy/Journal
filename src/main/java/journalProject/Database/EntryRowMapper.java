@@ -11,12 +11,12 @@ class EntryRowMapper implements RowMapper<Entry> {
     public Entry mapRow(ResultSet rs, int rowNum) throws SQLException {
         String date = formatDate(rs.getString("date"));
 
-        return new Entry(
-                rs.getString("user"),
-                rs.getString("id"),
-                date,
-                rs.getString("title"),
-                rs.getString("message"));
+        return new Entry.Builder(rs.getString("id"))
+                .withUser(rs.getString("user"))
+                .withTitle(rs.getString("title"))
+                .withDate(date)
+                .withMessage(rs.getString("message"))
+                .build();
     }
 
     private String formatDate(String date) {

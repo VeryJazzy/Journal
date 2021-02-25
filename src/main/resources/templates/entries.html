@@ -28,74 +28,83 @@ window.onclick = function(event) {
 
 
 
+
+
 </script>
 
 <body>
-<header class="img">
-    <a href="index.html">
-        <img alt="image didnt load" src="/images/journallogo.png" width="460" height="auto">
-    </a>
-    <a class="logoutButton" onclick="return window.confirm('Are you sure?');" href="logout" >Logout</a>
-</header>
-
-<nav>
-    <a class="buttons" href="entries">Journal entries</a>
-    <a class="buttons" href="add entry.html">Add an Entry</a>
-    <a class="buttons" href="aa">Error Page</a>
-</nav>
-<br>
-
-<div class="firstLine">
-    <a href="entries">
-        <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
-    </a>
-</div>
-
-<div class="secondLine">
 
 
-    <form class="datePickers" action="/dateSearch" method="post">
-        <input type="date" id="startDate" name="searchFrom" required>
-        <input type="date" id="endDate" name="searchTo">
-        <button class="go" type="submit">go</button>
-    </form>
+    <header class="img">
+        <a href="index.html" >
+            <img alt="image didnt load" href="index.html" src="/images/journallogo.png" width="460" height="auto">
+        </a>
+        <a class="logoutButton" onclick="return window.confirm('Are you sure?');" href="logout">Logout</a>
+    </header>
 
-    <form class="search" action="/search" method="post">
-        <input class="searchBox" type="text" placeholder="Search.." id="s" name="searchTerms" required>
-        <button class="go" type="submit">go</button>
-    </form>
+    <nav>
+        <a class="buttons" href="entries">Journal entries</a>
+        <a class="buttons" href="add entry.html">Add an Entry</a>
+        <a class="buttons" href="aa">Error Page</a>
+    </nav>
+    <br>
 
-    <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Sort by</button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="entries">Order Added</a>
-            <a href="sort?order=OLDEST">Date - Oldest</a>
-            <a href="sort?order=NEWEST">Date - Newest</a>
+
+
+<div class="optionsAndTable">
+
+    <div class="firstLine">
+        <a href="entries">
+            <img src="/images/entrieslogo.png" alt="image didnt load" width="280" height="auto">
+        </a>
+    </div>
+
+
+    <div class="secondLine">
+
+        <form class="datePickers" action="/dateSearch" method="post">
+            <input type="date" id="startDate" name="searchFrom" required>
+            <input type="date" id="endDate" name="searchTo">
+            <button class="go" type="submit">go</button>
+        </form>
+
+        <form class="search" action="/search" method="post">
+            <input class="searchBox" type="text" placeholder="Search.." id="s" name="searchTerms" required>
+            <button class="go" type="submit">go</button>
+        </form>
+
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Sort by</button>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="entries">Order Added</a>
+                <a href="sort?order=OLDEST">Date - Oldest</a>
+                <a href="sort?order=NEWEST">Date - Newest</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="no entries">
-    <p th:text="${message}"></p>
-</div>
 
-<div th:each="entry : ${entries}">
-    <table>
-        <tr>
-            <th th:text="${entry.title}" class="title"></th>
-            <th th:text="${entry.date}" class="date-area"></th>
-        </tr>
-        <tr>
-            <td th:text="${entry.message}" class="message-area"></td>
-            <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');"
-                                     th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <br>
-</div>
+    <div class="no entries">
+        <p th:text="${message}"></p>
+    </div>
 
+    <div th:each="entry : ${entries}">
+        <table>
+            <tr>
+                <th th:text="${entry.title}" class="title"></th>
+                <th th:text="${entry.date}" class="date-area"></th>
+            </tr>
+            <tr>
+                <td th:text="${entry.message}" class="message-area"></td>
+                <td class="emptyCell"><a class="deleteButton" onclick="return window.confirm('Are you sure?');"
+                                         th:href="@{deleteEntry/{id}(id=${entry.id})}"> Delete </a>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+    </div>
+</div>
 
 </body>
 

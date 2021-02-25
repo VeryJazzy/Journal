@@ -1,7 +1,7 @@
 package journalProject;
 
-import journalProject.Database.Dao;
 import journalProject.Database.Entry;
+import journalProject.Database.MySqlDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +21,7 @@ import java.util.*;
 public class MainController {
 
     @Autowired
-    Dao database;
+    MySqlDatabase database;
 
     @PostMapping("/sendForm")
     public String handleForm(@RequestParam(name = "user_date") String date, @RequestParam(name = "user_title") String title, @RequestParam(name = "user_message") String message) {
@@ -29,7 +29,12 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String user = authentication.getName();
 
-        Entry entry = new Entry(user, id, date, title, message);
+        Entry entry = new Entry.Builder(id)
+                .withUser(user)
+                .withTitle(title)
+                .withDate(date)
+                .withMessage(message)
+                .build();
         database.add(entry);
         return "redirect:/entries";
     }

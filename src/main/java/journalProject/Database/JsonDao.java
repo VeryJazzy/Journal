@@ -86,7 +86,12 @@ public class JsonDao implements Dao {
             String message = (String) jsonEntry.get("message");
             String user = "UNKNOWN";
 
-            Entry completeEntry = new Entry(user, id, date, title, message);
+            Entry completeEntry = new Entry.Builder(id)
+                    .withUser(user)
+                    .withTitle(title)
+                    .withDate(date)
+                    .withMessage(message)
+                    .build();
             entryList.add(completeEntry);
         }
         return entryList;

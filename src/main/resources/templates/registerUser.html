@@ -31,6 +31,7 @@
     <img src="/images/register.png" alt="image didnt load" width="300" height="auto">
 
 
+
     <div th:action="@{/login}">
         <p th:if="${param.userAlreadyExists}" class="alert-error">
             User already exists
@@ -44,7 +45,8 @@
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" oninput="check(this)" required>
         <button type="submit" class="button">Create User</button>
     </form>
-
+    <br>
+    <a class="backButton" href="login">Back</a>
 </div>
 
 </body>

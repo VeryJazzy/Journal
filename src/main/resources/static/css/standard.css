@@ -1,7 +1,17 @@
+
+
 body {
 	font-family: 'Roboto', sans-serif;
 	background-color: #e6e6e6;
+    width:535px;
+    margin:0 auto;
  }
+
+.openingParagraph {
+    width: 150%;
+    position: relative;
+    right: 25%;
+}
 
  .logoutButton {
   font-size: 14px;
@@ -18,8 +28,8 @@ body {
   	text-align: center;
   	transition: all 0.2s;
   	position: relative;
-  	left: 10px;
-  	bottom: 70px;
+  	left: 470px;
+  	bottom: 83px;
   }
   .logoutButton:hover {
   	background-color: #4095c6;
@@ -44,9 +54,7 @@ body {
 	background-color: #4095c6;
 }
 
-.openingParagraph {
-    width: 550px;
-}
+
 
 
 

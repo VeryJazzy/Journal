@@ -13,13 +13,9 @@ public class DatabaseConfig {
     private DataSource dataSource;
 
     @Bean
-    public Dao getMySqlDao() {
+    public MySqlDatabase getDatabase() {
         return new MySqlDatabase(dataSource);
     }
 
-//    @Bean
-//    public Dao getJsonDao() {
-//        return new JsonDao();
-//    }
 
 }
